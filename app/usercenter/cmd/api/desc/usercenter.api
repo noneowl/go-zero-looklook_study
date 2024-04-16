@@ -1,0 +1,43 @@
+syntax = "v1"
+
+info (
+	title:   "用户中心服务"
+	desc:    "用户中心服务"
+	author:  "maoty"
+	email:   "2958415423@qq.com"
+	version: "v1"
+)
+
+import (
+	"user/user.api"
+)
+
+@server (
+	prefix: usercenter/v1
+	group:  user
+)
+service usercenter {
+	@doc "register"
+	@handler register
+	post /user/register (RegisterReq) returns (RegisterResp)
+
+	@doc "login"
+	@handler login
+	post /user/login (LoginReq) returns (LoginResp)
+}
+
+@server (
+	prefix: usercenter/v1
+	group:  user
+	jwt:    JwtAuth
+)
+service usercenter {
+	@doc "get user info"
+	@handler detail
+	post /user/detail (UserInfoReq) returns (UserInfoResp)
+
+	@doc "wechat mini auth"
+	@handler wxMiniAuth
+	post /user/wxMiniAuth (WXMiniAuthReq) returns (WXMiniAuthResp)
+}
+

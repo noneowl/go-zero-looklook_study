@@ -1,0 +1,144 @@
+version: '3'
+
+services:
+  mqueue-job:
+    image: looklook/mqueue-job:v1
+    container_name: mqueue-job
+    environment:
+      # 时区上海 - Timezone Shanghai
+      TZ: Asia/Shanghai
+      GOPROXY: https://goproxy.cn,direct
+    privileged: true
+    restart: always
+    networks:
+      - go-zero-looklook_looklook_net
+
+  order-mq:
+    image: looklook/order-mq:v1
+    container_name: order-mq
+    environment:
+      # 时区上海 - Timezone Shanghai
+      TZ: Asia/Shanghai
+      GOPROXY: https://goproxy.cn,direct
+    privileged: true
+    restart: always
+    networks:
+      - go-zero-looklook_looklook_net
+
+  order-api:
+    image: looklook/order-api:v1
+    container_name: order-api
+    environment:
+      # 时区上海 - Timezone Shanghai
+      TZ: Asia/Shanghai
+      GOPROXY: https://goproxy.cn,direct
+    privileged: true
+    restart: always
+    networks:
+      - go-zero-looklook_looklook_net
+
+  order-rpc:
+    image: looklook/order-rpc:v1
+    container_name: order-rpc
+    environment:
+      # 时区上海 - Timezone Shanghai
+      TZ: Asia/Shanghai
+      GOPROXY: https://goproxy.cn,direct
+    privileged: true
+    restart: always
+    networks:
+      - go-zero-looklook_looklook_net
+
+  payment-api:
+    image: looklook/payment-api:v1
+    container_name: payment-api
+    environment:
+      # 时区上海 - Timezone Shanghai
+      TZ: Asia/Shanghai
+      GOPROXY: https://goproxy.cn,direct
+    privileged: true
+    restart: always
+    networks:
+      - go-zero-looklook_looklook_net
+
+  payment-rpc:
+    image: looklook/payment-rpc:v1
+    container_name: payment-rpc
+    environment:
+      # 时区上海 - Timezone Shanghai
+      TZ: Asia/Shanghai
+      GOPROXY: https://goproxy.cn,direct
+    privileged: true
+    restart: always
+    networks:
+      - go-zero-looklook_looklook_net
+
+  travel-rpc:
+    image: looklook/travel-rpc:v1
+    container_name: travel-rpc
+    environment:
+      # 时区上海 - Timezone Shanghai
+      TZ: Asia/Shanghai
+      GOPROXY: https://goproxy.cn,direct
+    privileged: true
+    restart: always
+    networks:
+      - go-zero-looklook_looklook_net
+
+  travel-api:
+    image: looklook/travel-api:v1
+    container_name: travel-api
+    environment:
+      # 时区上海 - Timezone Shanghai
+      TZ: Asia/Shanghai
+      GOPROXY: https://goproxy.cn,direct
+    privileged: true
+    restart: always
+    networks:
+      - go-zero-looklook_looklook_net
+
+  usercenter-api:
+    image: looklook/usercenter-api:v1
+    container_name: usercenter-api
+    environment:
+      # 时区上海 - Timezone Shanghai
+      TZ: Asia/Shanghai
+      GOPROXY: https://goproxy.cn,direct
+    privileged: true
+    restart: always
+    networks:
+      - go-zero-looklook_looklook_net
+
+  usercenter-rpc:
+    image: looklook/usercenter-rpc:v1
+    container_name: usercenter-rpc
+    environment:
+      # 时区上海 - Timezone Shanghai
+      TZ: Asia/Shanghai
+      GOPROXY: https://goproxy.cn,direct
+    privileged: true
+    restart: always
+    networks:
+      - go-zero-looklook_looklook_net
+
+  nginx:
+    image: nginx
+    container_name: nginx-gateway
+    restart: always
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - 8888:8081
+    volumes:
+      - D:\goPro\looklook_study\deploy\nginx\conf.d:/etc/nginx/conf.d
+      - D:\goPro\looklook_study\data\nginx\log:/var/log/nginx
+    networks:
+      - go-zero-looklook_looklook_net
+
+networks:
+  go-zero-looklook_looklook_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
